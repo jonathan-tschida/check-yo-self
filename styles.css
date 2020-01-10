@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  outline: none;
+}
+
+/* Colors
+Dark Blue = #1F1F3D
+Teal = #587A8A
+Light Gray = #F3F6F7
+Lighter Gray = #FAFDFFa
+Darkish Gray = #C7D3D8
+Dark Gray = #3C6577
+White = #FFFFFF
+Yo Orange = #FFC30C
+Red = #EF4A23
+Dark Red = #782616
+Light Yellow = #FFE89D
+Urgent Red = #B23A25
+*/
+
+/* General Layout */
+header,
+div {
+  display: flex;
+}
+
+input[type=image] {
+  height: 30px;
+}
+
+/* Header */
+header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1F1F3D;
+}
+
+h1 {
+  color: #FFFFFF;
+  font-size: 2.8em;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin: 10px;
+}
+
+h1 span {
+  color: #FFC30C;
+}
+
+.search-bar {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.search-bar input[type=image] {
+  background-color: #C7D3D8;
+  height: 50px;
+  width: 50px;
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+}
+
+.search-bar input[type=text] {
+  height: 50px;
+  width: 400px;
+  padding: 10px;
+  font-size: 1.4em;
+  border: none;
+  background-color: #FFFFFF;
+  border-radius: 0 5px 5px 0;
+}
+
+/* Sidebar */
+
+/* Card Section */
