@@ -6,6 +6,13 @@
   outline: none;
 }
 
+html,
+body,
+main {
+  height: 100%;
+  width: 100%;
+}
+
 /* Colors
 Dark Blue = #1F1F3D
 Teal = #587A8A
@@ -23,8 +30,17 @@ Urgent Red = #B23A25
 
 /* General Layout */
 header,
-div {
+div,
+main,
+section,
+article {
   display: flex;
+}
+
+main {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 input[type=image] {
@@ -77,5 +93,99 @@ h1 span {
 }
 
 /* Sidebar */
+.sidebar {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  width: 33%;
+  background-color: #587A8A;
+  border-right: 3px solid #3C6577;
+}
+
+.task-form,
+.filtering {
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+
+.task-form > *,
+.filtering > * {
+  margin: 10px 0;
+}
+
+.form-input {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.form-input label {
+  font-size: 1.4em;
+  line-height: 170%;
+  color: #C7D3D8;
+}
+
+.form-input input[type=text] {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #1F1F3D;
+  border-radius: 5px;
+}
+
+.combo-input {
+  width: 100%;
+}
+
+.combo-input input[type=text] {
+  border-radius: 5px 0 0 5px;
+}
+
+.combo-input input[type=button] {
+  font-size: 4em;
+  line-height: 50px;
+  width: 50px;
+  font-weight: 400;
+  border-radius: 0 5px 5px 0;
+}
+
+input[type=button] {
+  background-color: #1F1F3D;
+  color: #FFFFFF;
+  border: none;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.drafted-task-item {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 10px;
+
+}
+
+.drafted-task-item input[type="image"] {
+  margin: 2px 8px;
+  height: 30px;
+}
+
+.drafted-task-item p {
+  font-size: 1.6em;
+  color: #FFFFFF;
+}
+
+.filtering {
+  justify-content: flex-start;
+  border-top: 3px solid #3C6577;
+}
 
 /* Card Section */
+.card-section {
+  height: 100%;
+  width: 66%;
+}

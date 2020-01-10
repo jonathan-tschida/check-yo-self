@@ -13,25 +13,37 @@
       </div>
     </header>
     <main>
-      <section>
-        <article>
-          <h3>Task Title</h3>
-          <input type="text" />
+      <section class="sidebar">
+        <article class="task-form">
+          <div class="form-input">
+            <label>Task Title</label>
+            <input type="text" />
+          </div>
+            <div class="drafted-task-item">
+              <input type="image" src="./assets/delete.svg" />
+              <p>Placeholder text</p>
+            </div>
+            <div class="drafted-task-item">
+              <input type="image" src="./assets/delete.svg" />
+              <p>Much longer placeholder text that wraps around.</p>
+            </div>
           <div>
           </div>
-          <h3>Task Item</h3>
-          <div>
-            <input type="text" />
-            <input type="button" value="+" />
+          <div class="form-input">
+            <label>Task Item</label>
+            <div class="combo-input">
+              <input type="text" />
+              <input type="button" value="+" />
+            </div>
           </div>
           <input type="button" value="Make Task List" />
           <input type="button" value="Clear All" />
         </article>
-        <article>
+        <article class="filtering">
           <input type="button" value="Filter by Urgency" />
         </article>
       </section>
-      <section>
+      <section class="card-section">
         <article>
           <h2>Task Title</h2>
           <div>
