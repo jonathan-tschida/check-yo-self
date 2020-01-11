@@ -1,0 +1,281 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  outline: none;
+}
+
+html,
+body,
+main {
+  height: 100%;
+  width: 100%;
+}
+
+/* Colors
+Dark Blue = #1F1F3D
+Teal = #587A8A
+Light Gray = #F3F6F7
+Lighter Gray = #FAFDFFa
+Darkish Gray = #C7D3D8
+Dark Gray = #3C6577
+White = #FFFFFF
+Yo Orange = #FFC30C
+Red = #EF4A23
+Dark Red = #782616
+Light Yellow = #FFE89D
+Urgent Red = #B23A25
+*/
+
+/* General Layout */
+header,
+div,
+main,
+section,
+article {
+  display: flex;
+}
+
+main {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+input[type=image] {
+  height: 30px;
+}
+
+/* Header */
+header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1F1F3D;
+}
+
+h1 {
+  color: #FFFFFF;
+  font-size: 2.8em;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin: 10px;
+}
+
+h1 span {
+  color: #FFC30C;
+}
+
+.search-bar {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.search-bar input[type=image] {
+  background-color: #C7D3D8;
+  height: 50px;
+  width: 50px;
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+}
+
+.search-bar input[type=text] {
+  height: 50px;
+  width: 400px;
+  padding: 10px;
+  font-size: 1.4em;
+  border: none;
+  background-color: #FFFFFF;
+  border-radius: 0 5px 5px 0;
+}
+
+/* Sidebar */
+.sidebar {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  width: 33%;
+  background-color: #587A8A;
+  border-right: 3px solid #3C6577;
+}
+
+.task-form,
+.filtering {
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+
+.task-form > *,
+.filtering > * {
+  margin: 10px 0;
+}
+
+.form-input {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.form-input label {
+  font-size: 1.4em;
+  line-height: 170%;
+  color: #C7D3D8;
+}
+
+.form-input input[type=text] {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #1F1F3D;
+  border-radius: 5px;
+}
+
+.combo-input {
+  width: 100%;
+}
+
+.combo-input input[type=text] {
+  border-radius: 5px 0 0 5px;
+}
+
+.combo-input input[type=button] {
+  font-size: 4em;
+  line-height: 50px;
+  width: 50px;
+  font-weight: 400;
+  border-radius: 0 5px 5px 0;
+}
+
+input[type=button] {
+  background-color: #1F1F3D;
+  color: #FFFFFF;
+  border: none;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.drafted-task-item {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 10px;
+
+}
+
+.drafted-task-item input[type="image"] {
+  margin: 2px 8px;
+  height: 30px;
+}
+
+.drafted-task-item p {
+  font-size: 1.6em;
+  color: #FFFFFF;
+}
+
+.filtering {
+  justify-content: flex-start;
+  border-top: 3px solid #3C6577;
+}
+
+/* Card Section */
+.card-section {
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  width: 66%;
+  padding: 25px;
+  background-color: #F3F6F7;
+}
+
+.to-do-list {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+  background-color: #FAFDFF;
+  border: 3px solid #C7D3D8;
+  margin: 15px;
+  color: #1F1F3D;
+}
+
+.to-do-list h2 {
+  margin: 10px;
+}
+
+.list-of-tasks {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  border-top: 3px solid #C7D3D8;
+  border-bottom: 3px solid #C7D3D8;
+  padding: 10px 0;
+}
+
+.task-item {
+  margin: 10px;
+}
+
+.task-item input[type="image"] {
+  margin: 2px 8px;
+  height: 30px;
+}
+
+.task-item p {
+  font-size: 1.6em;
+}
+
+.checked p {
+  color: #3C6577;
+}
+
+.checked input[type=image] {
+  background: url("./assets/checkbox-active.svg") no-repeat;
+  background-position: center;
+  width: 30px;
+  padding-left: 30px;
+}
+
+.button-box {
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.urgent-box,
+.delete-box {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.button-box input[type=image] {
+  margin: 5px;
+}
+
+article.urgent {
+  background-color: #FFE89D;
+}
+
+article.urgent,
+article.urgent .list-of-tasks {
+  border-color: #FFC30C;
+}
+
+article.urgent .urgent-box p {
+  color: #EF4A23;
+}
+
+article.urgent .urgent-box input[type=image] {
+  background: url("./assets/urgent-active.svg") no-repeat;
+  background-position: center;
+  padding-top: 30px;
+}

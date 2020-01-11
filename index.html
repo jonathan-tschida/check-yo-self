@@ -1,0 +1,99 @@
+<!DOCTYPE = html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Check <span>Yo'</span> Self</h1>
+      <div class="search-bar">
+        <input type="image" src="./assets/search.svg" />
+        <input type="text" placeholder="Search"/>
+      </div>
+    </header>
+    <main>
+      <section class="sidebar">
+        <article class="task-form">
+          <div class="form-input">
+            <label>Task Title</label>
+            <input type="text" />
+          </div>
+            <div class="drafted-task-item">
+              <input type="image" src="./assets/delete.svg" />
+              <p>Placeholder text</p>
+            </div>
+            <div class="drafted-task-item">
+              <input type="image" src="./assets/delete.svg" />
+              <p>Much longer placeholder text that wraps around.</p>
+            </div>
+          <div>
+          </div>
+          <div class="form-input">
+            <label>Task Item</label>
+            <div class="combo-input">
+              <input type="text" />
+              <input type="button" value="+" />
+            </div>
+          </div>
+          <input type="button" value="Make Task List" />
+          <input type="button" value="Clear All" />
+        </article>
+        <article class="filtering">
+          <input type="button" value="Filter by Urgency" />
+        </article>
+      </section>
+      <section class="card-section">
+        <article class="to-do-list">
+          <h2>Task Title</h2>
+          <div class="list-of-tasks">
+            <div class="task-item">
+              <input type="image" src="./assets/checkbox.svg" />
+              <p>Placeholder text</p>
+            </div>
+            <div class="task-item checked">
+              <input type="image" src="./assets/checkbox.svg" />
+              <p>More placeholder text</p>
+            </div>
+          </div>
+          <div class="button-box">
+            <div class="urgent-box">
+              <input type="image" src="./assets/urgent.svg"
+              <p>URGENT</p>
+            </div>
+            <div class="delete-box">
+              <input type="image" src="./assets/delete.svg" />
+              <p>DELETE</p>
+            </div>
+          </div>
+        </article>
+        <article class="to-do-list urgent">
+          <h2>Urgent Task Title</h2>
+          <div class="list-of-tasks">
+            <div class="task-item">
+              <input type="image" src="./assets/checkbox.svg" />
+              <p>Placeholder text</p>
+            </div>
+            <div class="task-item checked">
+              <input type="image" src="./assets/checkbox-active.svg" />
+              <p>More placeholder text</p>
+            </div>
+          </div>
+          <div class="button-box">
+            <div class="urgent-box">
+              <input type="image" src="./assets/urgent.svg" />
+              <p>URGENT</p>
+            </div>
+            <div class="delete-box">
+              <input type="image" src="./assets/delete.svg"
+              <p>DELETE</p>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+    <script type="text/javascript" src="task.js"></script>
+    <script type="text/javascript" src="todo-list.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+  </body>
+</html>
