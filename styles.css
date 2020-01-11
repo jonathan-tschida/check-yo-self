@@ -194,23 +194,21 @@ input[type=button] {
 
 /* Card Section */
 .card-section {
-  flex-flow: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  height: 100%;
-  width: 66%;
+  display: block;
+  column-count: 2;
+  column-gap: 20px;
+  min-height: 100%;
+  width: 67%;
   padding: 25px;
   background-color: #F3F6F7;
 }
 
 .to-do-list {
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 50%;
+  display: inline-block;
+  width: 100%;
   background-color: #FAFDFF;
   border: 3px solid #C7D3D8;
-  margin: 15px;
+  margin-bottom: 30px;
   color: #1F1F3D;
 }
 
