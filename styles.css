@@ -186,6 +186,96 @@ input[type=button] {
 
 /* Card Section */
 .card-section {
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: flex-start;
   height: 100%;
   width: 66%;
+  padding: 25px;
+  background-color: #F3F6F7;
+}
+
+.to-do-list {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+  background-color: #FAFDFF;
+  border: 3px solid #C7D3D8;
+  margin: 15px;
+  color: #1F1F3D;
+}
+
+.to-do-list h2 {
+  margin: 10px;
+}
+
+.list-of-tasks {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  border-top: 3px solid #C7D3D8;
+  border-bottom: 3px solid #C7D3D8;
+  padding: 10px 0;
+}
+
+.task-item {
+  margin: 10px;
+}
+
+.task-item input[type="image"] {
+  margin: 2px 8px;
+  height: 30px;
+}
+
+.task-item p {
+  font-size: 1.6em;
+}
+
+.checked p {
+  color: #3C6577;
+}
+
+.checked input[type=image] {
+  background: url("./assets/checkbox-active.svg") no-repeat;
+  background-position: center;
+  width: 30px;
+  padding-left: 30px;
+}
+
+.button-box {
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.urgent-box,
+.delete-box {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.button-box input[type=image] {
+  margin: 5px;
+}
+
+article.urgent {
+  background-color: #FFE89D;
+}
+
+article.urgent,
+article.urgent .list-of-tasks {
+  border-color: #FFC30C;
+}
+
+article.urgent .urgent-box p {
+  color: #EF4A23;
+}
+
+article.urgent .urgent-box input[type=image] {
+  background: url("./assets/urgent-active.svg") no-repeat;
+  background-position: center;
+  padding-top: 30px;
 }
