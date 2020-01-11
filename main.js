@@ -6,11 +6,13 @@ addTaskButton.addEventListener('click', addNewTaskItem);
 draftingBox.addEventListener('click', removeDraftedItem);
 
 function addNewTaskItem() {
+  if (addTaskInput.value) {
   var newTaskItem = document.createElement('div');
   newTaskItem.classList.add('drafted-task-item');
   newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' />
   <p>${addTaskInput.value}</p>`;
   draftingBox.appendChild(newTaskItem);
+  }
 }
 
 function removeDraftedItem(event) {
