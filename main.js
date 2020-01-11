@@ -3,6 +3,7 @@ var addTaskButton = document.getElementById('add-task-button');
 var draftingBox = document.getElementById('drafting-box');
 var taskTitleInput = document.getElementById('task-title-input');
 var makeTaskListButton = document.getElementById('make-task-list-button');
+var cardSection = document.querySelector('.card-section');
 
 addTaskButton.addEventListener('click', addNewTaskItem);
 draftingBox.addEventListener('click', removeDraftedItem);
@@ -13,7 +14,7 @@ function addNewTaskItem() {
   var newTaskItem = document.createElement('div');
   newTaskItem.classList.add('drafted-task-item');
   newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' />
-  <p>${addTaskInput.value}</p>`;
+                           <p>${addTaskInput.value}</p>`;
   draftingBox.appendChild(newTaskItem);
   }
 }
@@ -25,6 +26,29 @@ function removeDraftedItem(event) {
 
 function makeNewTaskList() {
   var newToDo = createNewToDo();
+  var newTask = document.createElement('article');
+  newTask.classList.add('to-do-list');
+  newTask.innerHTML = `<h2>${newToDo.title}</h2>
+                      <div class="list-of-tasks">
+                      </div>
+                      <div class="button-box">
+                        <div class="urgent-box">
+                          <input type="image" src="./assets/urgent.svg"
+                          <p>URGENT</p>
+                        </div>
+                        <div class="delete-box">
+                          <input type="image" src="./assets/delete.svg" />
+                          <p>DELETE</p>
+                        </div>
+                      </div>`;
+  newToDo.tasks.forEach(function(taskItem) {
+    var newTaskItem = document.createElement('div');
+    newTaskItem.classList.add('task-item');
+    newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" />
+    <p>${taskItem}</p>`;
+    newTask.querySelector('.list-of-tasks').appendChild(newTaskItem);
+  });
+  cardSection.insertBefore(newTask, cardSection.childNodes[0]);
 }
 
 function createNewToDo() {
