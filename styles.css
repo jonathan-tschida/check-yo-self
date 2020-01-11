@@ -163,6 +163,12 @@ input[type=button] {
   font-weight: bold;
 }
 
+#drafting-box {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .drafted-task-item {
   flex-direction: row;
   justify-content: flex-start;
