@@ -1,3 +1,4 @@
+var toDos = [];
 var addTaskInput = document.getElementById('add-task-input');
 var addTaskButton = document.getElementById('add-task-button');
 var draftingBox = document.getElementById('drafting-box');
@@ -48,8 +49,10 @@ function preventDefault() {
 
 function makeNewTaskList() {
   var newToDo = createNewToDo();
+  toDos.push(newToDo);
   var newTask = document.createElement('article');
   newTask.classList.add('to-do-list');
+  newTask.id = newToDo.id;
   newTask.innerHTML = `<h2>${newToDo.title}</h2>
                       <div class="list-of-tasks">
                       </div>
@@ -67,7 +70,7 @@ function makeNewTaskList() {
     var newTaskItem = document.createElement('div');
     newTaskItem.classList.add('task-item');
     newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" />
-    <p>${taskItem}</p>`;
+    <p>${taskItem.text}</p>`;
     newTask.querySelector('.list-of-tasks').appendChild(newTaskItem);
   });
   cardSection.insertBefore(newTask, cardSection.childNodes[0]);
@@ -77,17 +80,17 @@ function makeNewTaskList() {
 function createNewToDo() {
   var newId = 'todo' + new Date().valueOf();
   var newTitle = taskTitleInput.value;
-  var newTasks = createTaskArray();
+  var newTasks = createTasks();
   var newToDo = new ToDoList(newId, newTitle, newTasks);
   return newToDo;
 }
 
-function createTaskArray() {
-  var taskArray = [];
+function createTasks() {
+  var newTasks = [];
   draftingBox.querySelectorAll('p').forEach(function(child) {
-    taskArray.push(child.innerText);
+    newTasks.push(new Task (child.innerText));
   })
-  return taskArray;
+  return newTasks;
 }
 
 function clearAll() {
