@@ -163,6 +163,11 @@ input[type=button] {
   font-weight: bold;
 }
 
+input[type=button]:disabled {
+  background-color: #C7D3D8;
+  color: #3C6577;
+}
+
 #drafting-box {
   flex-direction: column;
   justify-content: flex-start;
@@ -194,27 +199,38 @@ input[type=button] {
 
 /* Card Section */
 .card-section {
-  flex-flow: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  height: 100%;
-  width: 66%;
+  position: relative;
+  z-index: -1;
+  display: block;
+  column-count: 2;
+  column-gap: 20px;
+  min-height: 100%;
+  width: 67%;
   padding: 25px;
   background-color: #F3F6F7;
 }
 
+.instructions {
+  position: absolute;
+  top: 30px;
+  left: 50px;
+  display: block;
+  font-size: 1.4em;
+  color: #3C6577;
+  z-index: -1;
+}
+
 .to-do-list {
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 50%;
+  display: inline-block;
+  width: 100%;
   background-color: #FAFDFF;
   border: 3px solid #C7D3D8;
-  margin: 15px;
+  margin-bottom: 30px;
   color: #1F1F3D;
 }
 
 .to-do-list h2 {
+  font-size: 1.8em;
   margin: 10px;
 }
 
