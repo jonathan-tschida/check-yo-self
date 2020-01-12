@@ -3,6 +3,7 @@ var addTaskButton = document.getElementById('add-task-button');
 var draftingBox = document.getElementById('drafting-box');
 var taskTitleInput = document.getElementById('task-title-input');
 var makeTaskListButton = document.getElementById('make-task-list-button');
+var clearAllButton = document.getElementById('clear-all-button');
 var cardSection = document.querySelector('.card-section');
 
 addTaskButton.addEventListener('click', addNewTaskItem);
@@ -11,6 +12,7 @@ taskTitleInput.addEventListener('input', preventDefault);
 draftingBox.addEventListener('click', preventDefault);
 addTaskButton.addEventListener('click', preventDefault);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
+clearAllButton.addEventListener('click', clearAll);
 
 function addNewTaskItem() {
   if (addTaskInput.value) {
@@ -37,6 +39,11 @@ function preventDefault() {
     makeTaskListButton.disabled = false;
   } else {
     makeTaskListButton.disabled = true;
+  }
+  if (draftingBox.innerText || taskTitleInput.value) {
+    clearAllButton.disabled = false;
+  } else {
+    clearAllButton.disabled = true;
   }
 }
 
@@ -89,4 +96,5 @@ function clearAll() {
   addTaskInput.value = '';
   draftingBox.innerHTML = '';
   makeTaskListButton.disabled = true;
+  clearAllButton.disabled = true;
 }
