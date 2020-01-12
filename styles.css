@@ -199,6 +199,8 @@ input[type=button]:disabled {
 
 /* Card Section */
 .card-section {
+  position: relative;
+  z-index: -1;
   display: block;
   column-count: 2;
   column-gap: 20px;
@@ -206,6 +208,16 @@ input[type=button]:disabled {
   width: 67%;
   padding: 25px;
   background-color: #F3F6F7;
+}
+
+.instructions {
+  position: absolute;
+  top: 30px;
+  left: 50px;
+  display: block;
+  font-size: 1.4em;
+  color: #3C6577;
+  z-index: -1;
 }
 
 .to-do-list {
@@ -218,6 +230,7 @@ input[type=button]:disabled {
 }
 
 .to-do-list h2 {
+  font-size: 1.8em;
   margin: 10px;
 }
 
