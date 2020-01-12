@@ -7,6 +7,9 @@ var cardSection = document.querySelector('.card-section');
 
 addTaskButton.addEventListener('click', addNewTaskItem);
 draftingBox.addEventListener('click', removeDraftedItem);
+taskTitleInput.addEventListener('input', preventDefault);
+draftingBox.addEventListener('click', preventDefault);
+addTaskButton.addEventListener('click', preventDefault);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 
 function addNewTaskItem() {
@@ -22,6 +25,19 @@ function addNewTaskItem() {
 function removeDraftedItem(event) {
   event.target.tagName === 'INPUT' &&
   event.target.parentElement.remove();
+}
+
+function enableButton(input, button) {
+  input.value && (button.disabled = false);
+  input.value || (button.disabled = true);
+}
+
+function preventDefault() {
+  if (draftingBox.innerText && taskTitleInput.value) {
+    makeTaskListButton.disabled = false;
+  } else {
+    makeTaskListButton.disabled = true;
+  }
 }
 
 function makeNewTaskList() {
