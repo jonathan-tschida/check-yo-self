@@ -1,6 +1,6 @@
 class ToDoList {
-  constructor(id, title, tasks) {
-    this.id = id;
+  constructor(title, tasks) {
+    this.id = 'task' + new Date().valueOf();
     this.title = title;
     this.tasks = tasks;
     this.urgent = false;

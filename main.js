@@ -15,6 +15,7 @@ draftingBox.addEventListener('click', preventDefault);
 addTaskButton.addEventListener('click', preventDefault);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
+cardSection.addEventListener('click', toggleCheckbox);
 
 function addNewTaskItem() {
   var newTaskItem = document.createElement('div');
@@ -69,19 +70,19 @@ function makeNewTaskList() {
   newToDo.tasks.forEach(function(taskItem) {
     var newTaskItem = document.createElement('div');
     newTaskItem.classList.add('task-item');
-    newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" />
+    newTaskItem.id = taskItem.id;
+    newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" class="check-box" />
     <p>${taskItem.text}</p>`;
     newTask.querySelector('.list-of-tasks').appendChild(newTaskItem);
   });
-  cardSection.insertBefore(newTask, cardSection.childNodes[0]);
+  cardSection.insertBefore(newTask, cardSection.childNodes[2]);
   clearAll();
 }
 
 function createNewToDo() {
-  var newId = 'todo' + new Date().valueOf();
   var newTitle = taskTitleInput.value;
   var newTasks = createTasks();
-  var newToDo = new ToDoList(newId, newTitle, newTasks);
+  var newToDo = new ToDoList(newTitle, newTasks);
   return newToDo;
 }
 
@@ -99,4 +100,17 @@ function clearAll() {
   draftingBox.innerHTML = '';
   makeTaskListButton.disabled = true;
   clearAllButton.disabled = true;
+}
+
+function toggleCheckbox(event) {
+  if (event.target.classList.contains('check-box')) {
+    var thisToDo = toDos.find(function(todo) {
+        return todo.id === event.target.closest('.to-do-list').id;
+      });
+    var thisTask = thisToDo.tasks.find(function(task) {
+        return task.id === event.target.parentNode.id;
+    });
+    thisToDo.updateTask(thisTask);
+    event.target.parentNode.classList.toggle('checked');
+  }
 }
