@@ -8,6 +8,7 @@ var cardSection = document.querySelector('.card-section');
 
 addTaskButton.addEventListener('click', addNewTaskItem);
 draftingBox.addEventListener('click', removeDraftedItem);
+addTaskInput.addEventListener('input', preventDefault);
 taskTitleInput.addEventListener('input', preventDefault);
 draftingBox.addEventListener('click', preventDefault);
 addTaskButton.addEventListener('click', preventDefault);
@@ -15,13 +16,12 @@ makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
 
 function addNewTaskItem() {
-  if (addTaskInput.value) {
   var newTaskItem = document.createElement('div');
   newTaskItem.classList.add('drafted-task-item');
   newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' />
                            <p>${addTaskInput.value}</p>`;
   draftingBox.appendChild(newTaskItem);
-  }
+  addTaskInput.value = '';
 }
 
 function removeDraftedItem(event) {
@@ -35,16 +35,15 @@ function enableButton(input, button) {
 }
 
 function preventDefault() {
-  if (draftingBox.innerText && taskTitleInput.value) {
-    makeTaskListButton.disabled = false;
-  } else {
+  addTaskInput.value ?
+    addTaskButton.disabled = false :
+    addTaskButton.disabled = true;
+  (draftingBox.innerText && taskTitleInput.value) ?
+    makeTaskListButton.disabled = false :
     makeTaskListButton.disabled = true;
-  }
-  if (draftingBox.innerText || taskTitleInput.value) {
-    clearAllButton.disabled = false;
-  } else {
+  (draftingBox.innerText || taskTitleInput.value) ?
+    clearAllButton.disabled = false :
     clearAllButton.disabled = true;
-  }
 }
 
 function makeNewTaskList() {
