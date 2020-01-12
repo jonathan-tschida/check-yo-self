@@ -65,6 +65,7 @@ function makeNewTaskList() {
     newTask.querySelector('.list-of-tasks').appendChild(newTaskItem);
   });
   cardSection.insertBefore(newTask, cardSection.childNodes[0]);
+  clearAll();
 }
 
 function createNewToDo() {
@@ -81,4 +82,11 @@ function createTaskArray() {
     taskArray.push(child.innerText);
   })
   return taskArray;
+}
+
+function clearAll() {
+  taskTitleInput.value = '';
+  addTaskInput.value = '';
+  draftingBox.innerHTML = '';
+  makeTaskListButton.disabled = true;
 }
