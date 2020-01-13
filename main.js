@@ -187,17 +187,18 @@ function toggleUrgentFilter() {
   filterUrgencyButton.classList.toggle('filtered');
   filterUrgencyButton.classList.contains('filtered') ?
     showUrgentOnly() :
-    loadStoredLists();
+    searchTitles();
 }
 
 function showUrgentOnly() {
   cardSection.querySelectorAll('article').forEach(function(article) {
     article.classList.contains('urgent') || article.remove();
-  })
+  });
 }
 
 function searchTitles() {
   loadStoredLists();
+  filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
     pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) || article.remove();
   })
