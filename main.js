@@ -18,6 +18,7 @@ clearAllButton.addEventListener('click', clearAll);
 cardSection.addEventListener('click', toggleCheckbox);
 cardSection.addEventListener('click', deleteTaskList);
 cardSection.addEventListener('click', toggleUrgent);
+window.addEventListener('load', loadStoredLists);
 
 function addNewTaskItem() {
   var newTask = new Task(addTaskInput.value);
@@ -60,10 +61,16 @@ function preventDefault() {
 function makeNewTaskList() {
   var newTaskList = createNewToDo();
   newTaskList.saveToStorage();
-  var newTask = document.createElement('article');
-  newTask.classList.add('to-do-list');
-  newTask.id = newTaskList.id;
-  newTask.innerHTML = `<h2>${newTaskList.title}</h2>
+  var newToDoCard = createToDoCard(newTaskList);
+  cardSection.insertBefore(newToDoCard, cardSection.childNodes[2]);
+  clearAll();
+}
+
+function createToDoCard(toDoList) {
+  var newToDoCard = document.createElement('article');
+  newToDoCard.classList.add('to-do-list');
+  newToDoCard.id = toDoList.id;
+  newToDoCard.innerHTML = `<h2>${toDoList.title}</h2>
                       <div class="list-of-tasks">
                       </div>
                       <div class="button-box">
@@ -76,16 +83,15 @@ function makeNewTaskList() {
                           <p>DELETE</p>
                         </div>
                       </div>`;
-  newTaskList.tasks.forEach(function(taskItem) {
+  toDoList.tasks.forEach(function(task) {
     var newTaskItem = document.createElement('div');
     newTaskItem.classList.add('task-item');
-    newTaskItem.id = taskItem.id;
+    newTaskItem.id = task.id;
     newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" class="check-box" />
-    <p>${taskItem.text}</p>`;
-    newTask.querySelector('.list-of-tasks').appendChild(newTaskItem);
+    <p>${task.text}</p>`;
+    newToDoCard.querySelector('.list-of-tasks').appendChild(newTaskItem);
   });
-  cardSection.insertBefore(newTask, cardSection.childNodes[2]);
-  clearAll();
+  return newToDoCard;
 }
 
 function createNewToDo() {
@@ -140,10 +146,21 @@ function deleteTaskList() {
 
 function toggleUrgent() {
   if (event.target.classList.contains('urgent-button')) {
-    var thisToDo = toDos.find(function(todo) {
-        return todo.id === event.target.closest('.to-do-list').id;
-      });
+    // var thisToDo = toDos.find(function(todo) {
+    //     return todo.id === event.target.closest('.to-do-list').id;
+    //   });
+    var thisToDo = window.localStorage.getItem(event.target.closest('.to-do-list').id);
     thisToDo.updateToDo();
     event.target.closest('.to-do-list').classList.toggle('urgent');
   }
+}
+
+function loadStoredLists() {
+  var sortedStorage = Object.entries(window.localStorage).sort(function(a, b) {
+    return a > b ? 1 : -1;
+  });
+  sortedStorage.forEach(function(storedItem) {
+    var parsedObject = JSON.parse(storedItem[1]);
+    cardSection.insertBefore(createToDoCard(parsedObject), cardSection.childNodes[2]);
+  });
 }

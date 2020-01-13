@@ -7,7 +7,8 @@ class ToDoList {
   }
 
   saveToStorage() {
-    window.localStorage.setItem(this.id, this);
+    var stringedList = JSON.stringify(this);
+    window.localStorage.setItem(this.id, stringedList);
   }
 
   deleteFromStorage() {
