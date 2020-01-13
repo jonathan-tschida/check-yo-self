@@ -9,10 +9,10 @@ var cardSection = document.querySelector('.card-section');
 
 addTaskButton.addEventListener('click', addNewTaskItem);
 draftingBox.addEventListener('click', removeDraftedItem);
-addTaskInput.addEventListener('input', preventDefault);
-taskTitleInput.addEventListener('input', preventDefault);
-draftingBox.addEventListener('click', preventDefault);
-addTaskButton.addEventListener('click', preventDefault);
+addTaskInput.addEventListener('input', enableButtons);
+taskTitleInput.addEventListener('input', enableButtons);
+draftingBox.addEventListener('click', enableButtons);
+addTaskButton.addEventListener('click', enableButtons);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
 cardSection.addEventListener('click', toggleCheckbox);
@@ -41,12 +41,7 @@ function removeDraftedItem(event) {
   })), 1);
 }
 
-function enableButton(input, button) {
-  input.value && (button.disabled = false);
-  input.value || (button.disabled = true);
-}
-
-function preventDefault() {
+function enableButtons() {
   addTaskInput.value ?
     addTaskButton.disabled = false :
     addTaskButton.disabled = true;
@@ -97,7 +92,7 @@ function createToDoCard(toDoList) {
 function createNewToDo() {
   var newTitle = taskTitleInput.value;
   var newTasks = [...toDos];
-  var newToDo = new ToDoList(newTitle, newTasks);
+  var newToDo = new ToDoList({title: newTitle, tasks: newTasks});
   return newToDo;
 }
 
@@ -120,13 +115,15 @@ function clearAll() {
 
 function toggleCheckbox(event) {
   if (event.target.classList.contains('check-box')) {
-    var thisToDo = toDos.find(function(todo) {
-        return todo.id === event.target.closest('.to-do-list').id;
-      });
+    // var thisToDo = toDos.find(function(todo) {
+    //     return todo.id === event.target.closest('.to-do-list').id;
+    //   });
+    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
     var thisTask = thisToDo.tasks.find(function(task) {
         return task.id === event.target.parentNode.id;
     });
     thisToDo.updateTask(thisTask);
+    thisToDo.saveToStorage();
     event.target.parentNode.classList.toggle('checked');
   }
 }
@@ -160,7 +157,20 @@ function loadStoredLists() {
     return a > b ? 1 : -1;
   });
   sortedStorage.forEach(function(storedItem) {
-    var parsedObject = JSON.parse(storedItem[1]);
+    var parsedObject = new ToDoList (JSON.parse(storedItem[1]));
     cardSection.insertBefore(createToDoCard(parsedObject), cardSection.childNodes[2]);
+    checkBoxes(parsedObject.id);
+  });
+}
+
+function pullFromStorage(id) {
+  return new ToDoList(JSON.parse(window.localStorage.getItem(id)));
+}
+
+function checkBoxes(id) {
+  var thisToDoList = pullFromStorage(id);
+  var thisCard = document.getElementById(id);
+  thisToDoList.tasks.forEach(function(task) {
+  task.completed && document.getElementById(task.id).classList.add('checked');
   });
 }
