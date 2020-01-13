@@ -1,6 +1,6 @@
 class Task {
   constructor(text) {
-    this.id = 'task' + new Date().valueOf() + Math.floor(Math.random() * 10000);
+    this.id = 'task' + new Date().valueOf();
     this.text = text;
     this.completed = false;
   }

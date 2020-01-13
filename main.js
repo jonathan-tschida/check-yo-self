@@ -20,8 +20,11 @@ cardSection.addEventListener('click', deleteTaskList);
 cardSection.addEventListener('click', toggleUrgent);
 
 function addNewTaskItem() {
+  var newTask = new Task(addTaskInput.value);
   var newTaskItem = document.createElement('div');
+  toDos.push(newTask);
   newTaskItem.classList.add('drafted-task-item');
+  newTaskItem.id = newTask.id;
   newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' />
                            <p>${addTaskInput.value}</p>`;
   draftingBox.appendChild(newTaskItem);
@@ -31,6 +34,10 @@ function addNewTaskItem() {
 function removeDraftedItem(event) {
   event.target.tagName === 'INPUT' &&
   event.target.parentElement.remove();
+  event.target.tagName === 'INPUT' &&
+  toDos.splice(toDos.indexOf(toDos.find(function(task) {
+    return task.id === event.target.closest('.drafted-task-item').id
+  })), 1);
 }
 
 function enableButton(input, button) {
@@ -51,12 +58,12 @@ function preventDefault() {
 }
 
 function makeNewTaskList() {
-  var newToDo = createNewToDo();
-  toDos.unshift(newToDo);
+  var newTaskList = createNewToDo();
+  newTaskList.saveToStorage();
   var newTask = document.createElement('article');
   newTask.classList.add('to-do-list');
-  newTask.id = newToDo.id;
-  newTask.innerHTML = `<h2>${newToDo.title}</h2>
+  newTask.id = newTaskList.id;
+  newTask.innerHTML = `<h2>${newTaskList.title}</h2>
                       <div class="list-of-tasks">
                       </div>
                       <div class="button-box">
@@ -69,7 +76,7 @@ function makeNewTaskList() {
                           <p>DELETE</p>
                         </div>
                       </div>`;
-  newToDo.tasks.forEach(function(taskItem) {
+  newTaskList.tasks.forEach(function(taskItem) {
     var newTaskItem = document.createElement('div');
     newTaskItem.classList.add('task-item');
     newTaskItem.id = taskItem.id;
@@ -83,7 +90,7 @@ function makeNewTaskList() {
 
 function createNewToDo() {
   var newTitle = taskTitleInput.value;
-  var newTasks = createTasks();
+  var newTasks = [...toDos];
   var newToDo = new ToDoList(newTitle, newTasks);
   return newToDo;
 }
@@ -100,6 +107,7 @@ function clearAll() {
   taskTitleInput.value = '';
   addTaskInput.value = '';
   draftingBox.innerHTML = '';
+  toDos = [];
   makeTaskListButton.disabled = true;
   clearAllButton.disabled = true;
 }
