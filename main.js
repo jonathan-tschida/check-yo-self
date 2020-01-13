@@ -1,5 +1,4 @@
 var toDos = [];
-var searchInput = document.getElementById('search-input');
 var addTaskInput = document.getElementById('add-task-input');
 var addTaskButton = document.getElementById('add-task-button');
 var draftingBox = document.getElementById('drafting-box');
@@ -9,7 +8,6 @@ var clearAllButton = document.getElementById('clear-all-button');
 var filterUrgencyButton = document.getElementById('filter-urgency-button');
 var cardSection = document.querySelector('.card-section');
 
-searchInput.addEventListener('input', searchTitles);
 addTaskButton.addEventListener('click', addNewTaskItem);
 draftingBox.addEventListener('click', removeDraftedItem);
 addTaskInput.addEventListener('input', enableButtons);
@@ -187,18 +185,11 @@ function toggleUrgentFilter() {
   filterUrgencyButton.classList.toggle('filtered');
   filterUrgencyButton.classList.contains('filtered') ?
     showUrgentOnly() :
-    loadStoredLists();
+    loadStoredLists() ;
 }
 
 function showUrgentOnly() {
   cardSection.querySelectorAll('article').forEach(function(article) {
     article.classList.contains('urgent') || article.remove();
-  })
-}
-
-function searchTitles() {
-  loadStoredLists();
-  cardSection.querySelectorAll('article').forEach(function(article) {
-    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value) || article.remove();
   })
 }
