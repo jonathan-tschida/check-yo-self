@@ -128,16 +128,15 @@ function toggleCheckbox(event) {
   }
 }
 
-function deleteTaskList() {
+function deleteTaskList(event) {
   if (event.target.classList.contains('delete-button')) {
-    var thisToDo = toDos.find(function(todo) {
-        return todo.id === event.target.closest('.to-do-list').id;
-      });
-    if (thisToDo.tasks.every(task => task.completed)) {
-    toDos.splice(toDos.indexOf(find(function(toDo) {
-      toDo.id === thisToDo.id;
-    })), 1);
-    event.target.closest('.to-do-list').remove();}
+    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
+    if (thisToDo.tasks.every(function(task) {
+      return task.completed;
+    })) {
+      thisToDo.deleteFromStorage();
+      event.target.closest('.to-do-list').remove();
+    }
   }
 }
 
