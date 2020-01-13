@@ -115,9 +115,6 @@ function clearAll() {
 
 function toggleCheckbox(event) {
   if (event.target.classList.contains('check-box')) {
-    // var thisToDo = toDos.find(function(todo) {
-    //     return todo.id === event.target.closest('.to-do-list').id;
-    //   });
     var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
     var thisTask = thisToDo.tasks.find(function(task) {
         return task.id === event.target.parentNode.id;
@@ -142,9 +139,6 @@ function deleteTaskList(event) {
 
 function toggleUrgent() {
   if (event.target.classList.contains('urgent-button')) {
-    // var thisToDo = toDos.find(function(todo) {
-    //     return todo.id === event.target.closest('.to-do-list').id;
-    //   });
     var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
     thisToDo.updateToDo();
     thisToDo.saveToStorage();
