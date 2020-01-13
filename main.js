@@ -16,6 +16,7 @@ addTaskButton.addEventListener('click', preventDefault);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
 cardSection.addEventListener('click', toggleCheckbox);
+cardSection.addEventListener('click', deleteTaskList);
 
 function addNewTaskItem() {
   var newTaskItem = document.createElement('div');
@@ -63,7 +64,7 @@ function makeNewTaskList() {
                           <p>URGENT</p>
                         </div>
                         <div class="delete-box">
-                          <input type="image" src="./assets/delete.svg" />
+                          <input type="image" src="./assets/delete.svg" class="delete-button" />
                           <p>DELETE</p>
                         </div>
                       </div>`;
@@ -112,5 +113,17 @@ function toggleCheckbox(event) {
     });
     thisToDo.updateTask(thisTask);
     event.target.parentNode.classList.toggle('checked');
+  }
+}
+
+function deleteTaskList() {
+  if (event.target.classList.contains('delete-button')) {
+    var thisToDo = toDos.find(function(todo) {
+        return todo.id === event.target.closest('.to-do-list').id;
+      });
+    toDos.splice(toDos.indexOf(find(function(toDo) {
+      toDo.id === thisToDo.id;
+    })), 1);
+    event.target.closest('.to-do-list').remove();
   }
 }
