@@ -50,7 +50,7 @@ function preventDefault() {
 
 function makeNewTaskList() {
   var newToDo = createNewToDo();
-  toDos.push(newToDo);
+  toDos.unshift(newToDo);
   var newTask = document.createElement('article');
   newTask.classList.add('to-do-list');
   newTask.id = newToDo.id;
