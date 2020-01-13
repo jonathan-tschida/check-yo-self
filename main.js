@@ -145,8 +145,9 @@ function toggleUrgent() {
     // var thisToDo = toDos.find(function(todo) {
     //     return todo.id === event.target.closest('.to-do-list').id;
     //   });
-    var thisToDo = window.localStorage.getItem(event.target.closest('.to-do-list').id);
+    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
     thisToDo.updateToDo();
+    thisToDo.saveToStorage();
     event.target.closest('.to-do-list').classList.toggle('urgent');
   }
 }
@@ -159,6 +160,7 @@ function loadStoredLists() {
     var parsedObject = new ToDoList (JSON.parse(storedItem[1]));
     cardSection.insertBefore(createToDoCard(parsedObject), cardSection.childNodes[2]);
     checkBoxes(parsedObject.id);
+    markUrgent(parsedObject.id);
   });
 }
 
@@ -172,4 +174,10 @@ function checkBoxes(id) {
   thisToDoList.tasks.forEach(function(task) {
   task.completed && document.getElementById(task.id).classList.add('checked');
   });
+}
+
+function markUrgent(id) {
+  var thisToDoList = pullFromStorage(id);
+  var thisCard = document.getElementById(id);
+  thisToDoList.urgent && thisCard.classList.add('urgent');
 }
