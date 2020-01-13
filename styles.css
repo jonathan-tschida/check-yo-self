@@ -302,3 +302,8 @@ article.urgent .urgent-box input[type=image] {
   background-position: center;
   padding-top: 30px;
 }
+
+input[type=button].filtered {
+  background-color: #EF4A23;
+  border: 2px solid #782616;
+}
