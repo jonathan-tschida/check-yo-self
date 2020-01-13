@@ -199,6 +199,6 @@ function showUrgentOnly() {
 function searchTitles() {
   loadStoredLists();
   cardSection.querySelectorAll('article').forEach(function(article) {
-    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value) || article.remove();
+    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) || article.remove();
   })
 }
