@@ -1,3 +1,4 @@
+var toDos = [];
 var addTaskInput = document.getElementById('add-task-input');
 var addTaskButton = document.getElementById('add-task-button');
 var draftingBox = document.getElementById('drafting-box');
@@ -14,6 +15,7 @@ draftingBox.addEventListener('click', preventDefault);
 addTaskButton.addEventListener('click', preventDefault);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
+cardSection.addEventListener('click', toggleCheckbox);
 
 function addNewTaskItem() {
   var newTaskItem = document.createElement('div');
@@ -48,8 +50,10 @@ function preventDefault() {
 
 function makeNewTaskList() {
   var newToDo = createNewToDo();
+  toDos.unshift(newToDo);
   var newTask = document.createElement('article');
   newTask.classList.add('to-do-list');
+  newTask.id = newToDo.id;
   newTask.innerHTML = `<h2>${newToDo.title}</h2>
                       <div class="list-of-tasks">
                       </div>
@@ -66,28 +70,28 @@ function makeNewTaskList() {
   newToDo.tasks.forEach(function(taskItem) {
     var newTaskItem = document.createElement('div');
     newTaskItem.classList.add('task-item');
-    newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" />
-    <p>${taskItem}</p>`;
+    newTaskItem.id = taskItem.id;
+    newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" class="check-box" />
+    <p>${taskItem.text}</p>`;
     newTask.querySelector('.list-of-tasks').appendChild(newTaskItem);
   });
-  cardSection.insertBefore(newTask, cardSection.childNodes[0]);
+  cardSection.insertBefore(newTask, cardSection.childNodes[2]);
   clearAll();
 }
 
 function createNewToDo() {
-  var newId = 'todo' + new Date().valueOf();
   var newTitle = taskTitleInput.value;
-  var newTasks = createTaskArray();
-  var newToDo = new ToDoList(newId, newTitle, newTasks);
+  var newTasks = createTasks();
+  var newToDo = new ToDoList(newTitle, newTasks);
   return newToDo;
 }
 
-function createTaskArray() {
-  var taskArray = [];
+function createTasks() {
+  var newTasks = [];
   draftingBox.querySelectorAll('p').forEach(function(child) {
-    taskArray.push(child.innerText);
+    newTasks.push(new Task (child.innerText));
   })
-  return taskArray;
+  return newTasks;
 }
 
 function clearAll() {
@@ -96,4 +100,17 @@ function clearAll() {
   draftingBox.innerHTML = '';
   makeTaskListButton.disabled = true;
   clearAllButton.disabled = true;
+}
+
+function toggleCheckbox(event) {
+  if (event.target.classList.contains('check-box')) {
+    var thisToDo = toDos.find(function(todo) {
+        return todo.id === event.target.closest('.to-do-list').id;
+      });
+    var thisTask = thisToDo.tasks.find(function(task) {
+        return task.id === event.target.parentNode.id;
+    });
+    thisToDo.updateTask(thisTask);
+    event.target.parentNode.classList.toggle('checked');
+  }
 }
