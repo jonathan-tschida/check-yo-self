@@ -5,6 +5,7 @@ var draftingBox = document.getElementById('drafting-box');
 var taskTitleInput = document.getElementById('task-title-input');
 var makeTaskListButton = document.getElementById('make-task-list-button');
 var clearAllButton = document.getElementById('clear-all-button');
+var filterUrgencyButton = document.getElementById('filter-urgency-button');
 var cardSection = document.querySelector('.card-section');
 
 addTaskButton.addEventListener('click', addNewTaskItem);
@@ -15,6 +16,7 @@ draftingBox.addEventListener('click', enableButtons);
 addTaskButton.addEventListener('click', enableButtons);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
+filterUrgencyButton.addEventListener('click', toggleUrgentFilter)
 cardSection.addEventListener('click', toggleCheckbox);
 cardSection.addEventListener('click', deleteTaskList);
 cardSection.addEventListener('click', toggleUrgent);
@@ -147,6 +149,9 @@ function toggleUrgent() {
 }
 
 function loadStoredLists() {
+  cardSection.querySelectorAll('article').forEach(function(article) {
+    article.remove();
+  })
   var sortedStorage = Object.entries(window.localStorage).sort(function(a, b) {
     return a > b ? 1 : -1;
   });
@@ -174,4 +179,17 @@ function markUrgent(id) {
   var thisToDoList = pullFromStorage(id);
   var thisCard = document.getElementById(id);
   thisToDoList.urgent && thisCard.classList.add('urgent');
+}
+
+function toggleUrgentFilter() {
+  filterUrgencyButton.classList.toggle('filtered');
+  filterUrgencyButton.classList.contains('filtered') ?
+    showUrgentOnly() :
+    loadStoredLists() ;
+}
+
+function showUrgentOnly() {
+  cardSection.querySelectorAll('article').forEach(function(article) {
+    article.classList.contains('urgent') || article.remove();
+  })
 }
