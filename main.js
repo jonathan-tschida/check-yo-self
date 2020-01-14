@@ -90,14 +90,18 @@ function createToDoCard(toDoList) {
                         </div>
                       </div>`;
   toDoList.tasks.forEach(function(task) {
-    var newTaskItem = document.createElement('div');
-    newTaskItem.classList.add('task-item');
-    newTaskItem.id = task.id;
-    newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" class="check-box" />
-    <p>${task.text}</p>`;
-    newToDoCard.querySelector('.list-of-tasks').appendChild(newTaskItem);
+    newToDoCard.querySelector('.list-of-tasks').appendChild(generateTaskItem(task));
   });
   return newToDoCard;
+}
+
+function generateTaskItem(task) {
+  var newTaskItem = document.createElement('div');
+  newTaskItem.classList.add('task-item');
+  newTaskItem.id = task.id;
+  newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" class="check-box" />
+                          <p>${task.text}</p>`;
+  return newTaskItem;
 }
 
 function createNewToDo() {
