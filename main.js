@@ -28,9 +28,7 @@ makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
 filterUrgencyButton.addEventListener('click', toggleUrgentFilter)
 // Card Section
-cardSection.addEventListener('click', toggleCheckbox);
-cardSection.addEventListener('click', deleteTaskList);
-cardSection.addEventListener('click', toggleUrgent);
+cardSection.addEventListener('click', toDoListHandler);
 // Functions
 function addNewTaskItem() {
   var newTask = new Task(addTaskInput.value);
@@ -126,45 +124,46 @@ function clearAll() {
   clearAllButton.disabled = true;
 }
 
-function toggleCheckbox(event) {
-  if (event.target.classList.contains('check-box')) {
-    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-    var thisTask = thisToDo.tasks.find(function(task) {
-        return task.id === event.target.parentNode.id;
-    });
-    thisToDo.updateTask(thisTask);
-    thisToDo.saveToStorage();
-    event.target.parentNode.classList.toggle('checked');
+function toDoListHandler(event) {
+  var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
+  event.target.classList.contains('check-box') &&
+    toggleCheckbox(event, thisToDo);
+  event.target.classList.contains('delete-button') &&
+    deleteTaskList(event, thisToDo);
+  event.target.classList.contains('urgent-button') &&
+    toggleUrgent(event, thisToDo);
+}
+
+function toggleCheckbox(event, toDo) {
+  var thisTask = toDo.tasks.find(function(task) {
+    return task.id === event.target.parentNode.id;
+  });
+  toDo.updateTask(thisTask);
+  toDo.saveToStorage();
+  event.target.parentNode.classList.toggle('checked');
+}
+
+function deleteTaskList(event, toDo) {
+  if (toDo.tasks.every(function(task) {
+    return task.completed;
+  })) {
+    toDo.deleteFromStorage();
+    event.target.closest('.to-do-list').remove();
   }
 }
 
-function deleteTaskList(event) {
-  if (event.target.classList.contains('delete-button')) {
-    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-    if (thisToDo.tasks.every(function(task) {
-      return task.completed;
-    })) {
-      thisToDo.deleteFromStorage();
-      event.target.closest('.to-do-list').remove();
-    }
-  }
-}
-
-function toggleUrgent() {
-  if (event.target.classList.contains('urgent-button')) {
-    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-    thisToDo.updateToDo();
-    thisToDo.saveToStorage();
-    event.target.closest('.to-do-list').classList.toggle('urgent');
-  }
+function toggleUrgent(event, toDo) {
+  toDo.updateToDo();
+  toDo.saveToStorage();
+  event.target.closest('.to-do-list').classList.toggle('urgent');
 }
 
 function loadStoredLists() {
-  cardSection.querySelectorAll('article').forEach(function(article) {
-    article.remove();
-  })
   var sortedStorage = Object.entries(window.localStorage).sort(function(a, b) {
     return a > b ? 1 : -1;
+  });
+  cardSection.querySelectorAll('article').forEach(function(article) {
+    article.remove();
   });
   sortedStorage.forEach(function(storedItem) {
     var parsedObject = new ToDoList (JSON.parse(storedItem[1]));
@@ -201,7 +200,8 @@ function toggleUrgentFilter() {
 
 function showUrgentOnly() {
   cardSection.querySelectorAll('article').forEach(function(article) {
-    article.classList.contains('urgent') || article.remove();
+    article.classList.contains('urgent') ||
+      article.remove();
   });
 }
 
@@ -209,6 +209,7 @@ function searchTitles() {
   loadStoredLists();
   filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
-    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) || article.remove();
+    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+      article.remove();
   })
 }
