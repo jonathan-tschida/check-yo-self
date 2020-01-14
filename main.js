@@ -1,28 +1,50 @@
-var toDos = [];
+// QuerySelectors
+// Inputs
 var searchInput = document.getElementById('search-input');
-var addTaskInput = document.getElementById('add-task-input');
-var addTaskButton = document.getElementById('add-task-button');
-var draftingBox = document.getElementById('drafting-box');
 var taskTitleInput = document.getElementById('task-title-input');
+var addTaskInput = document.getElementById('add-task-input');
+// Buttons
+var addTaskButton = document.getElementById('add-task-button');
 var makeTaskListButton = document.getElementById('make-task-list-button');
 var clearAllButton = document.getElementById('clear-all-button');
 var filterUrgencyButton = document.getElementById('filter-urgency-button');
+// Containers
+var sidebar = document.querySelector('.sidebar');
+var draftingBox = document.getElementById('drafting-box');
 var cardSection = document.querySelector('.card-section');
-
-searchInput.addEventListener('input', searchTitles);
-addTaskButton.addEventListener('click', addNewTaskItem);
-draftingBox.addEventListener('click', removeDraftedItem);
-addTaskInput.addEventListener('input', enableButtons);
-taskTitleInput.addEventListener('input', enableButtons);
-draftingBox.addEventListener('click', enableButtons);
-addTaskButton.addEventListener('click', enableButtons);
-makeTaskListButton.addEventListener('click', makeNewTaskList);
-clearAllButton.addEventListener('click', clearAll);
-filterUrgencyButton.addEventListener('click', toggleUrgentFilter)
-cardSection.addEventListener('click', toggleCheckbox);
-cardSection.addEventListener('click', deleteTaskList);
-cardSection.addEventListener('click', toggleUrgent);
+// Global Variables
+var toDos = [];
+// EventListeners
 window.addEventListener('load', loadStoredLists);
+// Header
+searchInput.addEventListener('input', searchTitles);
+// Sidebar
+sidebar.addEventListener('click', sidebarClickHandler);
+taskTitleInput.addEventListener('input', enableButtons);
+addTaskInput.addEventListener('input', enableButtons);
+addTaskInput.addEventListener('keydown', addTaskHandler);
+// Card Section
+cardSection.addEventListener('click', toDoListHandler);
+// Functions
+// Sidebar
+function sidebarClickHandler(event) {
+  event.target === addTaskButton &&
+    addNewTaskItem();
+  event.target.classList.contains('remove-task-button') &&
+    removeDraftedItem(event);
+  event.target === makeTaskListButton &&
+    makeNewTaskList();
+  event.target === clearAllButton &&
+    clearAll();
+  event.target === filterUrgencyButton &&
+    toggleUrgentFilter();
+  enableButtons();
+}
+
+function addTaskHandler(event) {
+  (event.which === 13 && addTaskButton.disabled === false) &&
+    addNewTaskItem();
+}
 
 function addNewTaskItem() {
   var newTask = new Task(addTaskInput.value);
@@ -30,31 +52,19 @@ function addNewTaskItem() {
   toDos.push(newTask);
   newTaskItem.classList.add('drafted-task-item');
   newTaskItem.id = newTask.id;
-  newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' />
-                           <p>${addTaskInput.value}</p>`;
+  newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' class="remove-task-button"/>
+                           <p>${newTask.text}</p>`;
   draftingBox.appendChild(newTaskItem);
   addTaskInput.value = '';
+  addTaskButton.disabled = true;
 }
 
 function removeDraftedItem(event) {
-  event.target.tagName === 'INPUT' &&
-  event.target.parentElement.remove();
-  event.target.tagName === 'INPUT' &&
-  toDos.splice(toDos.indexOf(toDos.find(function(task) {
+  var thisDraftedTaskItem = toDos.find(function(task) {
     return task.id === event.target.closest('.drafted-task-item').id
-  })), 1);
-}
-
-function enableButtons() {
-  addTaskInput.value ?
-    addTaskButton.disabled = false :
-    addTaskButton.disabled = true;
-  (draftingBox.innerText && taskTitleInput.value) ?
-    makeTaskListButton.disabled = false :
-    makeTaskListButton.disabled = true;
-  (draftingBox.innerText || taskTitleInput.value) ?
-    clearAllButton.disabled = false :
-    clearAllButton.disabled = true;
+  });
+  event.target.parentElement.remove();
+  toDos.splice(toDos.indexOf(thisDraftedTaskItem), 1);
 }
 
 function makeNewTaskList() {
@@ -70,27 +80,31 @@ function createToDoCard(toDoList) {
   newToDoCard.classList.add('to-do-list');
   newToDoCard.id = toDoList.id;
   newToDoCard.innerHTML = `<h2>${toDoList.title}</h2>
-                      <div class="list-of-tasks">
-                      </div>
-                      <div class="button-box">
-                        <div class="urgent-box">
-                          <input type="image" src="./assets/urgent.svg" class="urgent-button" />
-                          <p>URGENT</p>
-                        </div>
-                        <div class="delete-box">
-                          <input type="image" src="./assets/delete.svg" class="delete-button" />
-                          <p>DELETE</p>
-                        </div>
-                      </div>`;
+                          <div class="list-of-tasks">
+                          </div>
+                          <div class="button-box">
+                            <div class="urgent-box">
+                              <input type="image" src="./assets/urgent.svg" class="urgent-button" />
+                              <p>URGENT</p>
+                            </div>
+                            <div class="delete-box">
+                              <input type="image" src="./assets/delete.svg" class="delete-button" />
+                              <p>DELETE</p>
+                            </div>
+                          </div>`;
   toDoList.tasks.forEach(function(task) {
-    var newTaskItem = document.createElement('div');
-    newTaskItem.classList.add('task-item');
-    newTaskItem.id = task.id;
-    newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" class="check-box" />
-    <p>${task.text}</p>`;
-    newToDoCard.querySelector('.list-of-tasks').appendChild(newTaskItem);
+    newToDoCard.querySelector('.list-of-tasks').appendChild(generateTaskItem(task));
   });
   return newToDoCard;
+}
+
+function generateTaskItem(task) {
+  var newTaskItem = document.createElement('div');
+  newTaskItem.classList.add('task-item');
+  newTaskItem.id = task.id;
+  newTaskItem.innerHTML = `<input type="image" src="./assets/checkbox.svg" class="check-box" />
+                          <p>${task.text}</p>`;
+  return newTaskItem;
 }
 
 function createNewToDo() {
@@ -117,45 +131,58 @@ function clearAll() {
   clearAllButton.disabled = true;
 }
 
-function toggleCheckbox(event) {
-  if (event.target.classList.contains('check-box')) {
-    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-    var thisTask = thisToDo.tasks.find(function(task) {
-        return task.id === event.target.parentNode.id;
-    });
-    thisToDo.updateTask(thisTask);
-    thisToDo.saveToStorage();
-    event.target.parentNode.classList.toggle('checked');
+function enableButtons() {
+  addTaskInput.value ?
+    addTaskButton.disabled = false :
+    addTaskButton.disabled = true;
+  (draftingBox.innerText && taskTitleInput.value) ?
+    makeTaskListButton.disabled = false :
+    makeTaskListButton.disabled = true;
+  (draftingBox.innerText || taskTitleInput.value) ?
+    clearAllButton.disabled = false :
+    clearAllButton.disabled = true;
+}
+// CardSection
+function toDoListHandler(event) {
+  var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
+  event.target.classList.contains('check-box') &&
+    toggleCheckbox(event, thisToDo);
+  event.target.classList.contains('delete-button') &&
+    deleteTaskList(event, thisToDo);
+  event.target.classList.contains('urgent-button') &&
+    toggleUrgent(event, thisToDo);
+}
+
+function toggleCheckbox(event, toDo) {
+  var thisTask = toDo.tasks.find(function(task) {
+    return task.id === event.target.parentNode.id;
+  });
+  toDo.updateTask(thisTask);
+  toDo.saveToStorage();
+  event.target.parentNode.classList.toggle('checked');
+}
+
+function deleteTaskList(event, toDo) {
+  toDo.tasks.every(function(task) {
+    return task.completed;
+  }) && function() {
+    toDo.deleteFromStorage();
+    event.target.closest('.to-do-list').remove();
   }
 }
 
-function deleteTaskList(event) {
-  if (event.target.classList.contains('delete-button')) {
-    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-    if (thisToDo.tasks.every(function(task) {
-      return task.completed;
-    })) {
-      thisToDo.deleteFromStorage();
-      event.target.closest('.to-do-list').remove();
-    }
-  }
+function toggleUrgent(event, toDo) {
+  toDo.updateToDo();
+  toDo.saveToStorage();
+  event.target.closest('.to-do-list').classList.toggle('urgent');
 }
-
-function toggleUrgent() {
-  if (event.target.classList.contains('urgent-button')) {
-    var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-    thisToDo.updateToDo();
-    thisToDo.saveToStorage();
-    event.target.closest('.to-do-list').classList.toggle('urgent');
-  }
-}
-
+// Storage and searching
 function loadStoredLists() {
-  cardSection.querySelectorAll('article').forEach(function(article) {
-    article.remove();
-  })
   var sortedStorage = Object.entries(window.localStorage).sort(function(a, b) {
     return a > b ? 1 : -1;
+  });
+  cardSection.querySelectorAll('article').forEach(function(article) {
+    article.remove();
   });
   sortedStorage.forEach(function(storedItem) {
     var parsedObject = new ToDoList (JSON.parse(storedItem[1]));
@@ -192,7 +219,8 @@ function toggleUrgentFilter() {
 
 function showUrgentOnly() {
   cardSection.querySelectorAll('article').forEach(function(article) {
-    article.classList.contains('urgent') || article.remove();
+    article.classList.contains('urgent') ||
+      article.remove();
   });
 }
 
@@ -200,6 +228,7 @@ function searchTitles() {
   loadStoredLists();
   filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
-    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) || article.remove();
+    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+      article.remove();
   })
 }
