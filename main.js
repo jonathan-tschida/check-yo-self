@@ -25,6 +25,7 @@ addTaskInput.addEventListener('input', enableButtons);
 // Card Section
 cardSection.addEventListener('click', toDoListHandler);
 // Functions
+// Sidebar
 function sidebarClickHandler(event) {
   event.target === addTaskButton &&
     addNewTaskItem();
@@ -59,18 +60,6 @@ function removeDraftedItem(event) {
   toDos.splice(toDos.indexOf(thisDraftedTaskItem), 1);
 }
 
-function enableButtons() {
-  addTaskInput.value ?
-    addTaskButton.disabled = false :
-    addTaskButton.disabled = true;
-  (draftingBox.innerText && taskTitleInput.value) ?
-    makeTaskListButton.disabled = false :
-    makeTaskListButton.disabled = true;
-  (draftingBox.innerText || taskTitleInput.value) ?
-    clearAllButton.disabled = false :
-    clearAllButton.disabled = true;
-}
-
 function makeNewTaskList() {
   var newTaskList = createNewToDo();
   newTaskList.saveToStorage();
@@ -84,18 +73,18 @@ function createToDoCard(toDoList) {
   newToDoCard.classList.add('to-do-list');
   newToDoCard.id = toDoList.id;
   newToDoCard.innerHTML = `<h2>${toDoList.title}</h2>
-                      <div class="list-of-tasks">
-                      </div>
-                      <div class="button-box">
-                        <div class="urgent-box">
-                          <input type="image" src="./assets/urgent.svg" class="urgent-button" />
-                          <p>URGENT</p>
-                        </div>
-                        <div class="delete-box">
-                          <input type="image" src="./assets/delete.svg" class="delete-button" />
-                          <p>DELETE</p>
-                        </div>
-                      </div>`;
+                          <div class="list-of-tasks">
+                          </div>
+                          <div class="button-box">
+                            <div class="urgent-box">
+                              <input type="image" src="./assets/urgent.svg" class="urgent-button" />
+                              <p>URGENT</p>
+                            </div>
+                            <div class="delete-box">
+                              <input type="image" src="./assets/delete.svg" class="delete-button" />
+                              <p>DELETE</p>
+                            </div>
+                          </div>`;
   toDoList.tasks.forEach(function(task) {
     newToDoCard.querySelector('.list-of-tasks').appendChild(generateTaskItem(task));
   });
@@ -135,6 +124,18 @@ function clearAll() {
   clearAllButton.disabled = true;
 }
 
+function enableButtons() {
+  addTaskInput.value ?
+    addTaskButton.disabled = false :
+    addTaskButton.disabled = true;
+  (draftingBox.innerText && taskTitleInput.value) ?
+    makeTaskListButton.disabled = false :
+    makeTaskListButton.disabled = true;
+  (draftingBox.innerText || taskTitleInput.value) ?
+    clearAllButton.disabled = false :
+    clearAllButton.disabled = true;
+}
+// CardSection
 function toDoListHandler(event) {
   var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
   event.target.classList.contains('check-box') &&
@@ -168,7 +169,7 @@ function toggleUrgent(event, toDo) {
   toDo.saveToStorage();
   event.target.closest('.to-do-list').classList.toggle('urgent');
 }
-
+// Storage and searching
 function loadStoredLists() {
   var sortedStorage = Object.entries(window.localStorage).sort(function(a, b) {
     return a > b ? 1 : -1;
