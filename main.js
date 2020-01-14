@@ -155,9 +155,9 @@ function toggleCheckbox(event, toDo) {
 }
 
 function deleteTaskList(event, toDo) {
-  if (toDo.tasks.every(function(task) {
+  toDo.tasks.every(function(task) {
     return task.completed;
-  })) {
+  }) && function() {
     toDo.deleteFromStorage();
     event.target.closest('.to-do-list').remove();
   }
