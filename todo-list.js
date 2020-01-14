@@ -16,12 +16,10 @@ class ToDoList {
   }
 
   updateToDo(newTitle) {
-    newTitle && (this.title = newTitle);
-    this.urgent = !this.urgent;
+    newTitle ? this.title = newTitle : this.urgent = !this.urgent;
   }
 
   updateTask(task, newContent) {
-    newContent && (task.text = newContent);
-    task.completed = !task.completed;
+    newContent ? task.text = newContent : task.completed = !task.completed;
   }
 }
