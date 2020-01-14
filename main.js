@@ -138,7 +138,8 @@ function enableButtons() {
 }
 // CardSection
 function toDoListHandler(event) {
-  var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
+  var thisToDo = event.target.closest('.to-do-list') &&
+    pullFromStorage(event.target.closest('.to-do-list').id);
   event.target.classList.contains('check-box') &&
     toggleCheckbox(event, thisToDo);
   event.target.classList.contains('delete-button') &&
@@ -157,9 +158,9 @@ function toggleCheckbox(event, toDo) {
 }
 
 function deleteTaskList(event, toDo) {
-  toDo.tasks.every(function(task) {
+  if (toDo.tasks.every(function(task) {
     return task.completed;
-  }) && function() {
+  })) {
     toDo.deleteFromStorage();
     event.target.closest('.to-do-list').remove();
   }
@@ -232,34 +233,36 @@ cardSection.addEventListener('focusout', editHandler);
 cardSection.addEventListener('keydown', enterHandler);
 
 function editHandler(event) {
+  var thisToDo = event.target.closest('.to-do-list') &&
+    pullFromStorage(event.target.closest('.to-do-list').id);
   event.target.tagName === 'H2' &&
-    editTitle(event);
+    editTitle(event, thisToDo);
   event.target.tagName === 'P' &&
-    testTask(event);
+    editTask(event, thisToDo);
 }
 
 function enterHandler(event) {
+  var thisToDo = event.target.closest('.to-do-list') &&
+    pullFromStorage(event.target.closest('.to-do-list').id);
   if (event.target.tagName === 'H2' && event.which === 13) {
-    editTitle(event);
+    editTitle(event, thisToDo);
     event.target.blur();
   }
   if (event.target.tagName === 'P' && event.which === 13) {
-    editTask(event);
+    editTask(event, thisToDo);
     event.target.blur();
   }
 }
 
-function editTitle(event) {
-  var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-  thisToDo.updateToDo(event.target.innerText);
-  thisToDo.saveToStorage();
+function editTitle(event, toDo) {
+  toDo.updateToDo(event.target.innerText);
+  toDo.saveToStorage();
 }
 
-function editTask(event) {
-  var thisToDo = pullFromStorage(event.target.closest('.to-do-list').id);
-  var thisTask = thisToDo.tasks.find(function(task) {
+function editTask(event, toDo) {
+  var thisTask = toDo.tasks.find(function(task) {
     return task.id === event.target.parentNode.id;
   });
-  thisToDo.updateTask(thisTask, event.target.innerText);
-  thisToDo.saveToStorage();
+  toDo.updateTask(thisTask, event.target.innerText);
+  toDo.saveToStorage();
 }
