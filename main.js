@@ -44,6 +44,7 @@ function sidebarClickHandler(event) {
 function addTaskHandler(event) {
   (event.which === 13 && addTaskButton.disabled === false) &&
     addNewTaskItem();
+  enableButtons();
 }
 
 function addNewTaskItem() {
@@ -56,7 +57,6 @@ function addNewTaskItem() {
                            <p>${newTask.text}</p>`;
   draftingBox.appendChild(newTaskItem);
   addTaskInput.value = '';
-  addTaskButton.disabled = true;
 }
 
 function removeDraftedItem(event) {
@@ -132,15 +132,9 @@ function clearAll() {
 }
 
 function enableButtons() {
-  addTaskInput.value ?
-    addTaskButton.disabled = false :
-    addTaskButton.disabled = true;
-  (draftingBox.innerText && taskTitleInput.value) ?
-    makeTaskListButton.disabled = false :
-    makeTaskListButton.disabled = true;
-  (draftingBox.innerText || taskTitleInput.value) ?
-    clearAllButton.disabled = false :
-    clearAllButton.disabled = true;
+  addTaskButton.disabled = !(addTaskInput.value)
+  makeTaskListButton.disabled = !(draftingBox.innerText && taskTitleInput.value);
+  clearAllButton.disabled = !(draftingBox.innerText || taskTitleInput.value);
 }
 // CardSection
 function toDoListHandler(event) {
