@@ -1,5 +1,3 @@
-// Global Variables
-var toDos = [];
 // QuerySelectors
 // Inputs
 var searchInput = document.getElementById('search-input');
@@ -13,6 +11,8 @@ var filterUrgencyButton = document.getElementById('filter-urgency-button');
 // Containers
 var draftingBox = document.getElementById('drafting-box');
 var cardSection = document.querySelector('.card-section');
+// Global Variables
+var toDos = [];
 // EventListeners
 window.addEventListener('load', loadStoredLists);
 // Header
@@ -22,8 +22,8 @@ taskTitleInput.addEventListener('input', enableButtons);
 draftingBox.addEventListener('click', removeDraftedItem);
 draftingBox.addEventListener('click', enableButtons);
 addTaskInput.addEventListener('input', enableButtons);
-addTaskButton.addEventListener('click', enableButtons);
 addTaskButton.addEventListener('click', addNewTaskItem);
+addTaskButton.addEventListener('click', enableButtons);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
 filterUrgencyButton.addEventListener('click', toggleUrgentFilter)
@@ -39,18 +39,19 @@ function addNewTaskItem() {
   newTaskItem.classList.add('drafted-task-item');
   newTaskItem.id = newTask.id;
   newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' />
-                           <p>${addTaskInput.value}</p>`;
+                           <p>${newTask.text}</p>`;
   draftingBox.appendChild(newTaskItem);
   addTaskInput.value = '';
 }
 
 function removeDraftedItem(event) {
-  event.target.tagName === 'INPUT' &&
-  event.target.parentElement.remove();
-  event.target.tagName === 'INPUT' &&
-  toDos.splice(toDos.indexOf(toDos.find(function(task) {
+  var thisDraftedTaskItem = toDos.find(function(task) {
     return task.id === event.target.closest('.drafted-task-item').id
-  })), 1);
+  });
+  if (event.target.tagName === 'INPUT') {
+    event.target.parentElement.remove();
+    toDos.splice(toDos.indexOf(thisDraftedTaskItem), 1);
+  }
 }
 
 function enableButtons() {
