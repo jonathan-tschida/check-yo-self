@@ -229,12 +229,24 @@ function searchTitles() {
 // Extensions
 // Editable tasks
 cardSection.addEventListener('focusout', editHandler);
+cardSection.addEventListener('keydown', enterHandler);
 
 function editHandler(event) {
   event.target.tagName === 'H2' &&
     editTitle(event);
   event.target.tagName === 'P' &&
     testTask(event);
+}
+
+function enterHandler(event) {
+  if (event.target.tagName === 'H2' && event.which === 13) {
+    editTitle(event);
+    event.target.blur();
+  }
+  if (event.target.tagName === 'P' && event.which === 13) {
+    editTask(event);
+    event.target.blur();
+  }
 }
 
 function editTitle(event) {
