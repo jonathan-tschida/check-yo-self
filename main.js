@@ -9,6 +9,7 @@ var makeTaskListButton = document.getElementById('make-task-list-button');
 var clearAllButton = document.getElementById('clear-all-button');
 var filterUrgencyButton = document.getElementById('filter-urgency-button');
 // Containers
+var sidebar = document.querySelector('.sidebar');
 var draftingBox = document.getElementById('drafting-box');
 var cardSection = document.querySelector('.card-section');
 // Global Variables
@@ -18,25 +19,33 @@ window.addEventListener('load', loadStoredLists);
 // Header
 searchInput.addEventListener('input', searchTitles);
 // Sidebar
+sidebar.addEventListener('click', sidebarClickHandler);
 taskTitleInput.addEventListener('input', enableButtons);
-draftingBox.addEventListener('click', removeDraftedItem);
-draftingBox.addEventListener('click', enableButtons);
 addTaskInput.addEventListener('input', enableButtons);
-addTaskButton.addEventListener('click', addNewTaskItem);
-addTaskButton.addEventListener('click', enableButtons);
-makeTaskListButton.addEventListener('click', makeNewTaskList);
-clearAllButton.addEventListener('click', clearAll);
-filterUrgencyButton.addEventListener('click', toggleUrgentFilter)
 // Card Section
 cardSection.addEventListener('click', toDoListHandler);
 // Functions
+function sidebarClickHandler(event) {
+  event.target === addTaskButton &&
+    addNewTaskItem();
+  event.target.classList.contains('remove-task-button') &&
+    removeDraftedItem(event);
+  event.target === makeTaskListButton &&
+    makeNewTaskList();
+  event.target === clearAllButton &&
+    clearAll();
+  event.target === filterUrgencyButton &&
+    toggleUrgentFilter();
+  enableButtons();
+}
+
 function addNewTaskItem() {
   var newTask = new Task(addTaskInput.value);
   var newTaskItem = document.createElement('div');
   toDos.push(newTask);
   newTaskItem.classList.add('drafted-task-item');
   newTaskItem.id = newTask.id;
-  newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' />
+  newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' class="remove-task-button"/>
                            <p>${newTask.text}</p>`;
   draftingBox.appendChild(newTaskItem);
   addTaskInput.value = '';
@@ -46,10 +55,8 @@ function removeDraftedItem(event) {
   var thisDraftedTaskItem = toDos.find(function(task) {
     return task.id === event.target.closest('.drafted-task-item').id
   });
-  if (event.target.tagName === 'INPUT') {
-    event.target.parentElement.remove();
-    toDos.splice(toDos.indexOf(thisDraftedTaskItem), 1);
-  }
+  event.target.parentElement.remove();
+  toDos.splice(toDos.indexOf(thisDraftedTaskItem), 1);
 }
 
 function enableButtons() {
