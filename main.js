@@ -25,6 +25,9 @@ addTaskInput.addEventListener('input', enableButtons);
 addTaskInput.addEventListener('keydown', addTaskHandler);
 // Card Section
 cardSection.addEventListener('click', toDoListHandler);
+// Editable Text
+cardSection.addEventListener('focusout', editHandler);
+cardSection.addEventListener('keydown', enterHandler);
 // Functions
 // Sidebar
 function sidebarClickHandler(event) {
@@ -228,10 +231,7 @@ function searchTitles() {
   })
 }
 // Extensions
-// Editable tasks
-cardSection.addEventListener('focusout', editHandler);
-cardSection.addEventListener('keydown', enterHandler);
-
+// Editable Text
 function editHandler(event) {
   var thisToDo = event.target.closest('.to-do-list') &&
     pullFromStorage(event.target.closest('.to-do-list').id);
