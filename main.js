@@ -1,29 +1,37 @@
+// Global Variables
 var toDos = [];
+// QuerySelectors
+// Inputs
 var searchInput = document.getElementById('search-input');
-var addTaskInput = document.getElementById('add-task-input');
-var addTaskButton = document.getElementById('add-task-button');
-var draftingBox = document.getElementById('drafting-box');
 var taskTitleInput = document.getElementById('task-title-input');
+var addTaskInput = document.getElementById('add-task-input');
+// Buttons
+var addTaskButton = document.getElementById('add-task-button');
 var makeTaskListButton = document.getElementById('make-task-list-button');
 var clearAllButton = document.getElementById('clear-all-button');
 var filterUrgencyButton = document.getElementById('filter-urgency-button');
+// Containers
+var draftingBox = document.getElementById('drafting-box');
 var cardSection = document.querySelector('.card-section');
-
+// EventListeners
+window.addEventListener('load', loadStoredLists);
+// Header
 searchInput.addEventListener('input', searchTitles);
-addTaskButton.addEventListener('click', addNewTaskItem);
-draftingBox.addEventListener('click', removeDraftedItem);
-addTaskInput.addEventListener('input', enableButtons);
+// Sidebar
 taskTitleInput.addEventListener('input', enableButtons);
+draftingBox.addEventListener('click', removeDraftedItem);
 draftingBox.addEventListener('click', enableButtons);
+addTaskInput.addEventListener('input', enableButtons);
 addTaskButton.addEventListener('click', enableButtons);
+addTaskButton.addEventListener('click', addNewTaskItem);
 makeTaskListButton.addEventListener('click', makeNewTaskList);
 clearAllButton.addEventListener('click', clearAll);
 filterUrgencyButton.addEventListener('click', toggleUrgentFilter)
+// Card Section
 cardSection.addEventListener('click', toggleCheckbox);
 cardSection.addEventListener('click', deleteTaskList);
 cardSection.addEventListener('click', toggleUrgent);
-window.addEventListener('load', loadStoredLists);
-
+// Functions
 function addNewTaskItem() {
   var newTask = new Task(addTaskInput.value);
   var newTaskItem = document.createElement('div');
