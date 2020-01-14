@@ -22,6 +22,7 @@ searchInput.addEventListener('input', searchTitles);
 sidebar.addEventListener('click', sidebarClickHandler);
 taskTitleInput.addEventListener('input', enableButtons);
 addTaskInput.addEventListener('input', enableButtons);
+addTaskInput.addEventListener('keydown', addTaskHandler);
 // Card Section
 cardSection.addEventListener('click', toDoListHandler);
 // Functions
@@ -38,6 +39,11 @@ function sidebarClickHandler(event) {
   event.target === filterUrgencyButton &&
     toggleUrgentFilter();
   enableButtons();
+}
+
+function addTaskHandler(event) {
+  event.which === 13 &&
+    addNewTaskItem();
 }
 
 function addNewTaskItem() {
