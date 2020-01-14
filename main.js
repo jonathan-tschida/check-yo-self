@@ -42,7 +42,7 @@ function sidebarClickHandler(event) {
 }
 
 function addTaskHandler(event) {
-  event.which === 13 &&
+  (event.which === 13 && addTaskButton.disabled === false) &&
     addNewTaskItem();
 }
 
@@ -56,6 +56,7 @@ function addNewTaskItem() {
                            <p>${newTask.text}</p>`;
   draftingBox.appendChild(newTaskItem);
   addTaskInput.value = '';
+  addTaskButton.disabled = true;
 }
 
 function removeDraftedItem(event) {
