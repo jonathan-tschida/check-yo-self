@@ -2,9 +2,9 @@
 // Inputs
 var searchInput = document.getElementById('search-input');
 var taskTitleInput = document.getElementById('task-title-input');
-var addTaskInput = document.getElementById('add-task-input');
+var draftTaskInput = document.getElementById('draft-task-input');
 // Buttons
-var addTaskButton = document.getElementById('add-task-button');
+var draftTaskButton = document.getElementById('draft-task-button');
 var makeTaskListButton = document.getElementById('make-task-list-button');
 var clearAllButton = document.getElementById('clear-all-button');
 var filterUrgencyButton = document.getElementById('filter-urgency-button');
@@ -16,7 +16,7 @@ var cardSection = document.querySelector('.card-section');
 var searchDropDown = document.getElementById('search-drop-down');
 // Global Variables
 var toDos = [];
-// EventListeners
+// Event Listeners
 window.addEventListener('load', loadStoredLists);
 // Header
 searchInput.addEventListener('input', searchToDos);
@@ -24,18 +24,20 @@ searchDropDown.addEventListener('input', searchToDos);
 // Sidebar
 sidebar.addEventListener('click', sidebarClickHandler);
 taskTitleInput.addEventListener('input', enableButtons);
-addTaskInput.addEventListener('input', enableButtons);
-addTaskInput.addEventListener('keydown', addTaskHandler);
+draftTaskInput.addEventListener('input', enableButtons);
+draftTaskInput.addEventListener('keydown', draftTaskHandler);
 // Card Section
 cardSection.addEventListener('click', toDoListHandler);
 // Editable Text
 cardSection.addEventListener('focusout', editHandler);
 cardSection.addEventListener('keydown', enterHandler);
+// Adding New Tasks
+cardSection.addEventListener('input', enableNewTask);
 // Functions
 // Sidebar
 function sidebarClickHandler(event) {
-  event.target === addTaskButton &&
-    addNewTaskItem();
+  event.target === draftTaskButton &&
+    draftTaskItem();
   event.target.classList.contains('remove-task-button') &&
     removeDraftedItem(event);
   event.target === makeTaskListButton &&
@@ -47,22 +49,22 @@ function sidebarClickHandler(event) {
   enableButtons();
 }
 
-function addTaskHandler(event) {
-  (event.which === 13 && addTaskButton.disabled === false) &&
-    addNewTaskItem();
+function draftTaskHandler(event) {
+  (event.which === 13 && draftTaskButton.disabled === false) &&
+    draftTaskItem();
   enableButtons();
 }
 
-function addNewTaskItem() {
-  var newTask = new Task(addTaskInput.value);
-  var newTaskItem = document.createElement('div');
+function draftTaskItem() {
+  var newTask = new Task(draftTaskInput.value);
+  var draftedTaskItem = document.createElement('div');
   toDos.push(newTask);
-  newTaskItem.classList.add('drafted-task-item');
-  newTaskItem.id = newTask.id;
-  newTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' class='remove-task-button' />
+  draftedTaskItem.classList.add('drafted-task-item');
+  draftedTaskItem.id = newTask.id;
+  draftedTaskItem.innerHTML = `<input type='image' src='./assets/delete.svg' class='remove-task-button' />
                            <p>${newTask.text}</p>`;
-  draftingBox.appendChild(newTaskItem);
-  addTaskInput.value = '';
+  draftingBox.appendChild(draftedTaskItem);
+  draftTaskInput.value = '';
 }
 
 function removeDraftedItem(event) {
@@ -95,7 +97,7 @@ function createToDoCard(toDoList) {
                             </div>
                             <div class='new-task-box'>
                               <input type='text' />
-                              <input type='button' value='+' disabled='true' />
+                              <input type='button' value='+' disabled='true' class='add-task-button' />
                             </div>
                             <div class='delete-box'>
                               <input type='image' src='./assets/delete.svg' class='delete-button' />
@@ -134,7 +136,7 @@ function createTasks() {
 
 function clearAll() {
   taskTitleInput.value = '';
-  addTaskInput.value = '';
+  draftTaskInput.value = '';
   draftingBox.innerHTML = '';
   toDos = [];
   makeTaskListButton.disabled = true;
@@ -142,11 +144,11 @@ function clearAll() {
 }
 
 function enableButtons() {
-  addTaskButton.disabled = !(addTaskInput.value)
+  draftTaskButton.disabled = !(draftTaskInput.value)
   makeTaskListButton.disabled = !(draftingBox.innerText && taskTitleInput.value);
   clearAllButton.disabled = !(draftingBox.innerText || taskTitleInput.value);
 }
-// CardSection
+// Card Section
 function toDoListHandler(event) {
   var thisToDo = event.target.closest('.to-do-list') &&
     pullFromStorage(event.target.closest('.to-do-list').id);
@@ -156,6 +158,8 @@ function toDoListHandler(event) {
     deleteTaskList(event, thisToDo);
   event.target.classList.contains('urgent-button') &&
     toggleUrgent(event, thisToDo);
+  event.target.classList.contains('add-task-button') &&
+    addNewTask(event, thisToDo);
 }
 
 function toggleCheckbox(event, toDo) {
@@ -181,7 +185,7 @@ function toggleUrgent(event, toDo) {
   toDo.saveToStorage();
   event.target.closest('.to-do-list').classList.toggle('urgent');
 }
-// Storage and searching
+// Storage and Searching
 function loadStoredLists() {
   var sortedStorage = Object.entries(window.localStorage).sort(function(a, b) {
     return a > b ? 1 : -1;
@@ -288,10 +292,23 @@ function searchToDos() {
   });
 }
 
-// Adding tasks
-cardSection.addEventListener('input', enableNewTask);
-
+// Adding New Tasks
 function enableNewTask(event) {
   var thisButton = event.target.parentNode.childNodes[3];
   thisButton.disabled = !event.target.value;
 }
+
+function addNewTask(event, toDo) {
+  var thisCard = event.target.closest('.to-do-list');
+  var thisInput = event.target.parentNode.childNodes[1];
+  var newTask = new Task(thisInput.value);
+  toDo.tasks.push(newTask);
+  toDo.saveToStorage();
+  thisCard.querySelector('.list-of-tasks').appendChild(generateTaskItem(newTask));
+}
+
+// function draftTaskHandler(event) {
+//   (event.which === 13 && draftTaskButton.disabled === false) &&
+//     draftTaskItem();
+//   enableButtons();
+// }
