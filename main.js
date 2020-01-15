@@ -20,7 +20,7 @@ var toDos = [];
 window.addEventListener('load', loadStoredLists);
 // Header
 // searchInput.addEventListener('input', searchTitles);
-searchInput.addEventListener('input', searchAll);
+searchInput.addEventListener('input', searchHandler);
 // Sidebar
 sidebar.addEventListener('click', sidebarClickHandler);
 taskTitleInput.addEventListener('input', enableButtons);
@@ -282,7 +282,6 @@ function searchTasks() {
 }
 
 function searchAll() {
-  // var hasMatchingTitle = pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase())
   loadStoredLists();
   filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
@@ -292,4 +291,13 @@ function searchAll() {
       });
     (hasMatchingTitle || hasMatchingTask) || article.remove();
   });
+}
+
+function searchHandler() {
+  searchDropDown.value === 'title' &&
+    searchTitles();
+  searchDropDown.value === 'tasks' &&
+    searchTasks();
+  searchDropDown.value === 'all' &&
+    searchAll();
 }
