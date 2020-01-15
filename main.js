@@ -289,3 +289,9 @@ function searchToDos() {
 }
 
 // Adding tasks
+cardSection.addEventListener('input', enableNewTask);
+
+function enableNewTask(event) {
+  var thisButton = event.target.parentNode.childNodes[3];
+  thisButton.disabled = !event.target.value;
+}
