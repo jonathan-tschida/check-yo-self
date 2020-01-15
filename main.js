@@ -33,6 +33,7 @@ cardSection.addEventListener('focusout', editHandler);
 cardSection.addEventListener('keydown', enterHandler);
 // Adding New Tasks
 cardSection.addEventListener('input', enableNewTask);
+cardSection.addEventListener('keydown', addTaskHandler);
 // Functions
 // Sidebar
 function sidebarClickHandler(event) {
@@ -307,8 +308,6 @@ function addNewTask(event, toDo) {
   thisCard.querySelector('.list-of-tasks').appendChild(generateTaskItem(newTask));
   thisInput.value = '';
 }
-
-cardSection.addEventListener('keydown', addTaskHandler);
 
 function addTaskHandler(event) {
   var thisToDo = event.target.closest('.to-do-list') &&
