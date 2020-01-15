@@ -16,8 +16,6 @@ The UI was created with a combination of HTML and CSS, with the functionality be
 
 ![Comp Given](https://frontend.turing.io/assets/images/projects/check-yo-self/check-yo-self-02.jpg)
 
-#### Our Website
+#### Finished Product
 
-![Our Website](./assets/check-yo-self-page.png)
-
-
+![Finished Product](./assets/check-yo-self-page.png)
