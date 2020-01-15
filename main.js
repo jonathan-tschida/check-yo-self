@@ -305,10 +305,16 @@ function addNewTask(event, toDo) {
   toDo.tasks.push(newTask);
   toDo.saveToStorage();
   thisCard.querySelector('.list-of-tasks').appendChild(generateTaskItem(newTask));
+  thisInput.value = '';
 }
 
-// function draftTaskHandler(event) {
-//   (event.which === 13 && draftTaskButton.disabled === false) &&
-//     draftTaskItem();
-//   enableButtons();
-// }
+cardSection.addEventListener('keydown', addTaskHandler);
+
+function addTaskHandler(event) {
+  var thisToDo = event.target.closest('.to-do-list') &&
+    pullFromStorage(event.target.closest('.to-do-list').id);
+  var thisButton = event.target.parentNode.childNodes[3];
+  (event.which === 13 && thisButton.disabled === false) &&
+    addNewTask(event, thisToDo);
+  enableNewTask(event);
+}
