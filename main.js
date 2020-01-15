@@ -19,8 +19,8 @@ var toDos = [];
 // EventListeners
 window.addEventListener('load', loadStoredLists);
 // Header
-searchInput.addEventListener('input', searchHandler);
-searchDropDown.addEventListener('input', searchHandler);
+searchInput.addEventListener('input', searchToDos);
+searchDropDown.addEventListener('input', searchToDos);
 // Sidebar
 sidebar.addEventListener('click', sidebarClickHandler);
 taskTitleInput.addEventListener('input', enableButtons);
@@ -215,7 +215,7 @@ function toggleUrgentFilter() {
   filterUrgencyButton.classList.toggle('filtered');
   filterUrgencyButton.classList.contains('filtered') ?
     showUrgentOnly() :
-    searchHandler();
+    searchToDos();
 }
 
 function showUrgentOnly() {
@@ -223,15 +223,6 @@ function showUrgentOnly() {
     article.classList.contains('urgent') ||
       article.remove();
   });
-}
-
-function searchTitles() {
-  loadStoredLists();
-  filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
-  cardSection.querySelectorAll('article').forEach(function(article) {
-    var hasMatchingTitle = pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase());
-    hasMatchingTitle || article.remove();
-  })
 }
 // Extensions
 // Editable Text
@@ -271,18 +262,7 @@ function editTask(event, toDo) {
 }
 
 // Search Extension
-function searchTasks() {
-  loadStoredLists();
-  filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
-  cardSection.querySelectorAll('article').forEach(function(article) {
-    var hasMatchingTask = pullFromStorage(article.id).tasks.find(function(task) {
-        return task.text.toLowerCase().includes(searchInput.value.toLowerCase());
-      });
-    hasMatchingTask || article.remove();
-  });
-}
-
-function searchAll() {
+function searchToDos() {
   loadStoredLists();
   filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
@@ -290,15 +270,16 @@ function searchAll() {
     var hasMatchingTask = pullFromStorage(article.id).tasks.find(function(task) {
         return task.text.toLowerCase().includes(searchInput.value.toLowerCase());
       });
-    (hasMatchingTitle || hasMatchingTask) || article.remove();
+    switch (searchDropDown.value) {
+      case 'title':
+        hasMatchingTitle || article.remove();
+        break;
+      case 'tasks':
+        hasMatchingTask || article.remove();
+        break;
+      case 'all':
+        (hasMatchingTitle || hasMatchingTask) || article.remove();
+        break;
+    }
   });
-}
-
-function searchHandler() {
-  searchDropDown.value === 'title' &&
-    searchTitles();
-  searchDropDown.value === 'tasks' &&
-    searchTasks();
-  searchDropDown.value === 'all' &&
-    searchAll();
 }
