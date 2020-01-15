@@ -93,6 +93,10 @@ function createToDoCard(toDoList) {
                               <input type='image' src='./assets/urgent.svg' class='urgent-button' />
                               <p>URGENT</p>
                             </div>
+                            <div class='new-task-box'>
+                              <input type='text' />
+                              <input type='button' value='+' disabled='true' />
+                            </div>
                             <div class='delete-box'>
                               <input type='image' src='./assets/delete.svg' class='delete-button' />
                               <p>DELETE</p>
@@ -283,3 +287,5 @@ function searchToDos() {
     }
   });
 }
+
+// Adding tasks
