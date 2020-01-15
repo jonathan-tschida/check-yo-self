@@ -92,6 +92,16 @@ h1 span {
   border-radius: 0 5px 5px 0;
 }
 
+.search-bar select {
+  height: 50px;
+  width: 200px;
+  padding: 10px;
+  margin-left: 10px;
+  font-size: 1.4em;
+  border: none;
+  background-color: #F3F6F7;
+}
+
 /* Sidebar */
 .sidebar {
   flex-direction: column;
