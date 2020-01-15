@@ -19,8 +19,8 @@ var toDos = [];
 // EventListeners
 window.addEventListener('load', loadStoredLists);
 // Header
-// searchInput.addEventListener('input', searchTitles);
 searchInput.addEventListener('input', searchHandler);
+searchDropDown.addEventListener('input', searchHandler);
 // Sidebar
 sidebar.addEventListener('click', sidebarClickHandler);
 taskTitleInput.addEventListener('input', enableButtons);
@@ -215,7 +215,7 @@ function toggleUrgentFilter() {
   filterUrgencyButton.classList.toggle('filtered');
   filterUrgencyButton.classList.contains('filtered') ?
     showUrgentOnly() :
-    searchTitles();
+    searchHandler();
 }
 
 function showUrgentOnly() {
@@ -229,8 +229,8 @@ function searchTitles() {
   loadStoredLists();
   filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
-    pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-      article.remove();
+    var hasMatchingTitle = pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase());
+    hasMatchingTitle || article.remove();
   })
 }
 // Extensions
@@ -275,9 +275,10 @@ function searchTasks() {
   loadStoredLists();
   filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
-    pullFromStorage(article.id).tasks.find(function(task) {
-      return task.text.toLowerCase().includes(searchInput.value.toLowerCase());
-    }) || article.remove();
+    var hasMatchingTask = pullFromStorage(article.id).tasks.find(function(task) {
+        return task.text.toLowerCase().includes(searchInput.value.toLowerCase());
+      });
+    hasMatchingTask || article.remove();
   });
 }
 
