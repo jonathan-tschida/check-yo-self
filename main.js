@@ -20,7 +20,7 @@ var toDos = [];
 window.addEventListener('load', loadStoredLists);
 // Header
 // searchInput.addEventListener('input', searchTitles);
-searchInput.addEventListener('input', searchTasks);
+searchInput.addEventListener('input', searchAll);
 // Sidebar
 sidebar.addEventListener('click', sidebarClickHandler);
 taskTitleInput.addEventListener('input', enableButtons);
@@ -273,12 +273,23 @@ function editTask(event, toDo) {
 // Search Extension
 function searchTasks() {
   loadStoredLists();
-  // filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
+  filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
   cardSection.querySelectorAll('article').forEach(function(article) {
     pullFromStorage(article.id).tasks.find(function(task) {
       return task.text.toLowerCase().includes(searchInput.value.toLowerCase());
     }) || article.remove();
   });
-    // pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-    //   article.remove();
+}
+
+function searchAll() {
+  // var hasMatchingTitle = pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase())
+  loadStoredLists();
+  filterUrgencyButton.classList.contains('filtered') && showUrgentOnly();
+  cardSection.querySelectorAll('article').forEach(function(article) {
+    var hasMatchingTitle = pullFromStorage(article.id).title.toLowerCase().includes(searchInput.value.toLowerCase());
+    var hasMatchingTask = pullFromStorage(article.id).tasks.find(function(task) {
+        return task.text.toLowerCase().includes(searchInput.value.toLowerCase());
+      });
+    (hasMatchingTitle || hasMatchingTask) || article.remove();
+  });
 }
