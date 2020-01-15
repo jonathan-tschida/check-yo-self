@@ -280,6 +280,7 @@ input[type=button]:disabled {
 .button-box {
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 10px;
 }
@@ -316,4 +317,41 @@ article.urgent .urgent-box input[type=image] {
 input[type=button].filtered {
   background-color: #EF4A23;
   border: 2px solid #782616;
+}
+
+.new-task-box input[type=text] {
+  height: 50px;
+  width: 150px;
+  border: 3px solid #C7D3D8;
+  font-size: 1.4em;
+  padding-left: 10px;
+}
+
+.new-task-box input[type=button] {
+  background-color: #3C6577;
+  color: #FFFFFF;
+  border: none;
+  height: 50px;
+  font-weight: bold;
+  font-size: 4em;
+  line-height: 50px;
+  width: 50px;
+  font-weight: 400;
+  border-radius: 0 5px 5px 0;
+}
+
+.urgent .new-task-box input[type=text] {
+  border: 3px solid #FFC30C;
+}
+
+.urgent .new-task-box input[type=button] {
+  background-color: #EF4A23;
+}
+
+.urgent .new-task-box input[type=button]:disabled {
+  background-color: #FFC30C;
+}
+
+.new-task-box input[type=button]:disabled {
+  background-color: #C7D3D8;
 }
